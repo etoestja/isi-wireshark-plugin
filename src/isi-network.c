@@ -588,7 +588,7 @@ static void dissect_isi_network_subpacket(guint8 sptype, tvbuff_t *tvb, packet_i
 		case 0xE7: /* NET_OPER_NAME_INFO */
 		default:
 			   //proto_tree_add_item(tree, hf_isi_network_data_sub_type, tvb, 
-			expert_add_info_format(pinfo, item, PI_PROTOCOL, PI_WARN, "unsupported packet");
+			//expert_add_info_format(pinfo, item, PI_PROTOCOL, PI_WARN, "unsupported packet");
 			break;
 	}
 }

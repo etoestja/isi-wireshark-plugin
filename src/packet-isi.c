@@ -529,7 +529,7 @@ static void dissect_isi(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree) {
 		content = tvb_new_subset(tvb, 8, length, length);
 
 		/* Call subdissector depending on the resource ID */
-//		if(!dissector_try_uint(isi_resource_dissector_table, resource, content, pinfo, isi_tree))
+		if(!dissector_try_uint(isi_resource_dissector_table, resource, content, pinfo, isi_tree))
 			call_dissector(data_handle, content, pinfo, isi_tree);
 	}
 }
