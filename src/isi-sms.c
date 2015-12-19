@@ -157,7 +157,7 @@ void proto_reg_handoff_isi_sms(void) {
 
 	if (!initialized) {
 		isi_sms_handle = create_dissector_handle(dissect_isi_sms, proto_isi);
-		dissector_add("isi.resource", 0x02, isi_sms_handle);
+		dissector_add_uint("isi.resource", 0x02, isi_sms_handle);
 	}
 }
 

@@ -123,7 +123,7 @@ void proto_reg_handoff_isi_ss(void) {
 
 	if (!initialized) {
 		isi_ss_handle = create_dissector_handle(dissect_isi_ss, proto_isi);
-		dissector_add("isi.resource", 0x06, isi_ss_handle);
+		dissector_add_uint("isi.resource", 0x06, isi_ss_handle);
 	}
 }
 

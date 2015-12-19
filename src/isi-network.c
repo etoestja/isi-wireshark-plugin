@@ -19,6 +19,7 @@
 # include "config.h"
 #endif
 
+#include <stdlib.h>
 #include <glib.h>
 #include <epan/prefs.h>
 #include <epan/packet.h>
@@ -101,7 +102,7 @@ void proto_reg_handoff_isi_network(void) {
 
 	if (!initialized) {
 		isi_network_handle = create_dissector_handle(dissect_isi_network, proto_isi);
-		dissector_add("isi.resource", 0x0a, isi_network_handle);
+		dissector_add_uint("isi.resource", 0x0a, isi_network_handle);
 	}
 }
 
@@ -192,7 +193,7 @@ static void dissect_isi_network_status(tvbuff_t *tvb, packet_info *pinfo, proto_
 				guint16 strlen = tvb_get_ntohs(tvb, offset+2);
 				proto_tree_add_item(subtree, hf_isi_network_status_sub_msg_len, tvb, offset+2, 2, FALSE);
 
-				char *utf16 = tvb_memdup(tvb, offset+4, strlen*2);
+				char *utf16 = tvb_memdup(NULL, tvb, offset+4, strlen*2);
 				char *ascii = utf16_to_ascii(utf16, strlen);
 				proto_item *subitem = proto_tree_add_string(subtree, hf_isi_network_status_sub_msg, tvb, offset+4, strlen*2, ascii);
 				break;

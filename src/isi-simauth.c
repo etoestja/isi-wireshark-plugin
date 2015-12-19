@@ -98,7 +98,7 @@ void proto_reg_handoff_isi_sim_auth(void) {
 
 	if (!initialized) {
 		isi_sim_auth_handle = create_dissector_handle(dissect_isi_sim_auth, proto_isi);
-		dissector_add("isi.resource", 0x08, isi_sim_auth_handle);
+		dissector_add_uint("isi.resource", 0x08, isi_sim_auth_handle);
 	}
 }
 

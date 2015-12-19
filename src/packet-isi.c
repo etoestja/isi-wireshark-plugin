@@ -103,7 +103,7 @@ void proto_reg_handoff_isi(void) {
 	if(!initialized) {
 		data_handle = find_dissector("data");
 		isi_handle = create_dissector_handle(dissect_isi, proto_isi);
-		dissector_add("sll.ltype", ISI_LTYPE, isi_handle);
+		dissector_add_uint("sll.ltype", ISI_LTYPE, isi_handle);
 
 		/* handoff resource dissectors */
 		proto_reg_handoff_isi_sim_auth();
@@ -188,11 +188,11 @@ static void dissect_isi(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree) {
 	guint8 resource = 0;
 	guint16 length = 0;
 
-	if(check_col(pinfo->cinfo, COL_PROTOCOL)) 
+/*	if(check_col(pinfo->cinfo, COL_PROTOCOL)) 
 		col_set_str(pinfo->cinfo, COL_PROTOCOL, "ISI");
 	
 	if(check_col(pinfo->cinfo,COL_INFO))
-		col_clear(pinfo->cinfo,COL_INFO);
+		col_clear(pinfo->cinfo,COL_INFO);*/
 
 	if(tree) {
 		/* If tree != NULL, we're doing a detailed dissection of the
@@ -227,7 +227,7 @@ static void dissect_isi(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree) {
 		content = tvb_new_subset(tvb, 8, length, length);
 
 		/* Call subdissector depending on the resource ID */
-		if(!dissector_try_port(isi_resource_dissector_table, resource, content, pinfo, isi_tree))
+//		if(!dissector_try_uint(isi_resource_dissector_table, resource, content, pinfo, isi_tree))
 			call_dissector(data_handle, content, pinfo, isi_tree);
 	}
 }

@@ -1,6 +1,8 @@
 #ifndef _PACKET_ISI_H
 #define _PACKET_ISI_H
 
+#include <epan/tvbuff-int.h>
+
 /* Wireshark ID of the protocol */
 extern int proto_isi;
 

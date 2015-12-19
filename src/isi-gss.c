@@ -71,7 +71,7 @@ void proto_reg_handoff_isi_gss(void) {
 
 	if (!initialized) {
 		isi_gss_handle = create_dissector_handle(dissect_isi_gss, proto_isi);
-		dissector_add("isi.resource", 0x32, isi_gss_handle);
+		dissector_add_uint("isi.resource", 0x32, isi_gss_handle);
 	}
 }
 

@@ -25,7 +25,7 @@
 #include <epan/packet.h>
 
 #include <epan/dissectors/packet-e212.h>
-#include <epan/bitswap.h>
+#include <wsutil/bitswap.h>
 
 #include "packet-isi.h"
 #include "isi-sim.h"
@@ -187,7 +187,7 @@ void proto_reg_handoff_isi_sim(void) {
 
 	if (!initialized) {
 		isi_sim_handle = create_dissector_handle(dissect_isi_sim, proto_isi);
-		dissector_add("isi.resource", 0x09, isi_sim_handle);
+		dissector_add_uint("isi.resource", 0x09, isi_sim_handle);
 	}
 }
 
