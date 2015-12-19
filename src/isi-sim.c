@@ -42,21 +42,28 @@ static const value_string isi_sim_message_id[] = {
 	{0xBB, "SIM_READ_FIELD_RESP"},
 	{0xBC, "SIM_SMS_REQ"},
 	{0xBD, "SIM_SMS_RESP"},
+	{0xC0, "SIM_STATUS_REQ"},
+	{0xC1, "SIM_STATUS_RESP"},
 	{0xDC, "SIM_PB_REQ_SIM_PB_READ"},
 	{0xDD, "SIM_PB_RESP_SIM_PB_READ"},
+	{0xED, "SIM_SERVER_READY_IND"},
 	{0xEF, "SIM_IND"},
 	{0xF0, "SIM_COMMON_MESSAGE"},
 	{0x00, NULL}
 };
 
 static const value_string isi_sim_service_type[] = {
+	{0x00, "SIM_ST_CARD_STATUS"},
 	{0x01, "SIM_ST_PIN"},
 	{0x05, "SIM_ST_ALL_SERVICES"},
 	{0x0D, "SIM_ST_INFO"},
-	{0x2C, "SIM_ST_READ_SERV_PROV_NAME"},
 	{0x0F, "SIM_PB_READ"},
+	{0x15, "SIM_ST_CAT_SUPPORT_ENABLE"},
+	{0x16, "SIM_ST_CAT_SUPPORT_DISABLE"},
+	{0x2C, "SIM_ST_READ_SERV_PROV_NAME"},
 	{0x2D, "READ_IMSI"},
 	{0x2F, "READ_HPLMN"},
+	{0x35, "READ_DYN_FLAGS"},
 	{0x52, "READ_PARAMETER"},
 	{0x53, "UPDATE_PARAMETER"},
 	{0x66, "ICC"},
@@ -462,21 +469,8 @@ static void dissect_isi_sim(tvbuff_t *tvb, packet_info *pinfo, proto_item *isitr
 				}
 				break;
 
-			case 0xF0: /* SIM_COMMON_MESSAGE */
-				proto_tree_add_item(tree, hf_isi_sim_cause, tvb, 1, 1, FALSE);
-				proto_tree_add_item(tree, hf_isi_sim_secondary_cause, tvb, 2, 1, FALSE);
-				code = tvb_get_guint8(tvb, 1);
-				switch(code) {
-					case 0x00:
-						col_set_str(pinfo->cinfo, COL_INFO, "Common Message: SIM Server Not Available");
-						break;
-					case 0x12:
-						col_set_str(pinfo->cinfo, COL_INFO, "Common Message: PIN Enable OK");
-						break;
-					default:
-						col_set_str(pinfo->cinfo, COL_INFO, "Common Message");
-						break;
-				}
+			case 0xF0: /* COMMON_MESSAGE */
+				dissect_isi_common("SIM", tvb, pinfo, tree);
 				break;
 
 			default:
